@@ -1,0 +1,5 @@
+{
+  "name": "ClickTrackZen - A Click Tracker with Mindful Breaks",
+  "description": "A sleek, macOS-inspired web application to track your clicks within the app and encourage mindful breaks. Set a click goal, and when you reach it, enjoy a 15-minute break with a relaxing video, a Spotify playlist, and a motivational quote from Gemini.",
+  "requestFramePermissions": []
+}
