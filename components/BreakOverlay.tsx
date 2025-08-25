@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AnimatedGradient from './AnimatedGradient';
+import { getBreakQuote } from '../services/geminiService';
 
 interface BreakOverlayProps {
   onEndBreak: () => void;
@@ -9,6 +11,11 @@ const FIFTEEN_MINUTES = 15 * 60;
 const BreakOverlay: React.FC<BreakOverlayProps> = ({ onEndBreak }) => {
   const [timeLeft, setTimeLeft] = useState(FIFTEEN_MINUTES);
   const [isHovering, setIsHovering] = useState(true);
+  const [quote, setQuote] = useState<string>('Thinking of something nice for you...');
+
+  useEffect(() => {
+    getBreakQuote().then(setQuote);
+  }, []);
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -30,27 +37,23 @@ const BreakOverlay: React.FC<BreakOverlayProps> = ({ onEndBreak }) => {
   };
 
   return (
-    <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black/70 z-10 backdrop-blur-lg animate-fade-in">
-      <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
-        <video
-          className="absolute top-1/2 left-1/2 w-full h-full min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-10"
-          src="/videos/relaxing-video.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-        </video>
+    <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-10 animate-fade-in">
+      {/* Background */}
+      <div className="absolute inset-0 z-0 animate-scale-in">
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+        <AnimatedGradient isInteractive={true} />
       </div>
       
+      {/* Content */}
       <div 
-        className={`relative z-10 text-center p-8 rounded-lg max-w-lg w-full flex flex-col items-center transition-all duration-500 ease-in-out ${isHovering ? 'bg-brand-surface shadow-xl justify-between' : 'bg-transparent shadow-none justify-center'}`}
+        className={`relative z-10 text-center p-8 rounded-lg max-w-lg w-full flex flex-col items-center transition-all duration-500 ease-in-out ${isHovering ? 'bg-brand-surface/80 backdrop-blur-sm shadow-xl justify-between' : 'bg-transparent shadow-none justify-center'}`}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         style={{ minHeight: '300px' }} // Give container a consistent height for smooth transition
       >
-        <div className={`w-full transition-all duration-300 ease-in-out overflow-hidden ${isHovering ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className={`w-full transition-all duration-300 ease-in-out overflow-hidden ${isHovering ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}>
           <h2 className="text-3xl font-medium text-brand-text-primary mb-2">Time for a break!</h2>
+           <p className="text-brand-text-secondary font-light mt-4 mb-2 italic">"{quote}"</p>
         </div>
         
         <div className={`w-full transition-all duration-500 ease-in-out ${isHovering ? 'translate-y-0' : '-translate-y-1/2'}`}>

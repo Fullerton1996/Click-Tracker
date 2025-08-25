@@ -28,6 +28,26 @@
               'brand-interactive-primary': '#0353e9', // Blue 60 Hover
               'brand-interactive-spotify': '#1db954', // Official Spotify Green
               'brand-interactive-spotify-hover': '#1aa34a', // Darker Spotify Green for hover
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'scale-in': 'scaleIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+            },
+            keyframes: {
+              fadeIn: {
+                'from': { opacity: '0' },
+                'to': { opacity: '1' },
+              },
+              scaleIn: {
+                'from': { 
+                  transform: 'scale(0.9)', 
+                  opacity: '0' 
+                },
+                'to': { 
+                  transform: 'scale(1)', 
+                  opacity: '1' 
+                },
+              }
             }
           }
         }

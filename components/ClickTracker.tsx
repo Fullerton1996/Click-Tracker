@@ -17,8 +17,8 @@ const ClickTracker: React.FC<ClickTrackerProps> = ({ name, clicks, clickGoal }) 
       </h1>
       <p className="text-3xl font-light text-brand-text-secondary mb-6">let's track those clicks!</p>
       
-      <div className="relative w-full h-48 md:h-64 border border-brand-border mb-6 overflow-hidden">
-        <AnimatedGradient />
+      <div className="relative w-full h-48 md:h-64 bg-brand-surface mb-6 overflow-hidden rounded-lg">
+        <AnimatedGradient isInteractive={false} />
       </div>
 
       <div className="w-full">
