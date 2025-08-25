@@ -1,21 +1,14 @@
 {
-  "name": "clicktrackzen---a-click-tracker-with-mindful-breaks",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "click-tracker-desktop",
+  "version": "1.0.0",
+  "description": "Click-Tracker Desktop App",
+  "main": "main.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^19.1.1",
-    "@google/genai": "^1.15.0",
-    "react-dom": "^19.1.1"
+    "start": "electron .",
+    "package": "electron-packager . ClickTracker --platform=darwin --arch=x64 --overwrite"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "electron": "^30.0.0",
+    "electron-packager": "^17.1.1"
   }
 }
