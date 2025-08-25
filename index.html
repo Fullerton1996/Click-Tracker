@@ -8,43 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['"IBM Plex Sans"', 'sans-serif'],
-            },
-            colors: {
-              // Carbon Design Gray 100 Theme
-              'brand-bg': '#161616',
-              'brand-surface': '#262626',
-              'brand-primary': '#0f62fe', // Blue 60 (Primary Action)
-              'brand-secondary': '#42be65', // Green 50 (Progress)
-              'brand-text-primary': '#f4f4f4', // Gray 10
-              'brand-text-secondary': '#8d8d8d', // Gray 50
-              'brand-border': '#393939',      // Gray 80
-              'brand-interactive-primary': '#0353e9', // Blue 60 Hover
-              'brand-interactive-spotify': '#1db954', // Official Spotify Green
-              'brand-interactive-spotify-hover': '#1aa34a', // Darker Spotify Green for hover
-            }
-          }
-        }
-      }
-    </script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.1.1/",
-    "react": "https://esm.sh/react@^19.1.1",
-    "@google/genai": "https://esm.sh/@google/genai@^1.15.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.1/"
-  }
-}
-</script>
-</head>
+  </head>
   <body class="font-sans">
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

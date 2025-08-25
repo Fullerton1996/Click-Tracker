@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { useElectronClickTracking } from './hooks/useElectronClickTracking';
 import { Settings } from './types';
 import ClickTracker from './components/ClickTracker';
 import SettingsModal from './components/SettingsModal';
@@ -15,16 +16,44 @@ const App: React.FC = () => {
   const [isBreakActive, setIsBreakActive] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
+  const {
+    isElectron,
+    isTracking,
+    startTracking,
+    stopTracking,
+    onSystemClick,
+  } = useElectronClickTracking();
+
   const handleSettingsSave = (newSettings: Settings) => {
     setSettings(newSettings);
     setIsSettingsOpen(false);
   };
   
   const handleAppClick = useCallback(() => {
-    if (!isBreakActive) {
+    if (!isBreakActive && !isElectron) {
+      // Only handle clicks manually if not in Electron (web version)
       setClicks(prev => prev + 1);
     }
-  }, [isBreakActive]);
+  }, [isBreakActive, isElectron]);
+
+  // Set up system-wide click tracking in Electron
+  useEffect(() => {
+    if (!isElectron) return;
+
+    const unsubscribe = onSystemClick((clickData) => {
+      if (!isBreakActive) {
+        setClicks(prev => prev + 1);
+      }
+    });
+
+    // Start tracking when component mounts
+    startTracking();
+
+    return () => {
+      unsubscribe();
+      stopTracking();
+    };
+  }, [isElectron, isBreakActive, onSystemClick, startTracking, stopTracking]);
 
   useEffect(() => {
     if (clicks >= settings.clickGoal) {
@@ -67,10 +96,23 @@ const App: React.FC = () => {
           currentSettings={settings}
         />
         
-        <div className="absolute bottom-4 text-center text-brand-text-secondary text-xs px-4">
-          <p className="font-medium text-sm mb-1">Disclaimer</p>
-          <p>This is a web application and can only track clicks made <span className="font-semibold text-brand-text-primary">inside this window</span>. It does not track clicks system-wide.</p>
-        </div>
+        {!isElectron && (
+          <div className="absolute bottom-4 text-center text-brand-text-secondary text-xs px-4">
+            <p className="font-medium text-sm mb-1">Disclaimer</p>
+            <p>This is a web application and can only track clicks made <span className="font-semibold text-brand-text-primary">inside this window</span>. It does not track clicks system-wide.</p>
+          </div>
+        )}
+
+        {isElectron && (
+          <div className="absolute bottom-4 text-center text-brand-text-secondary text-xs px-4">
+            <p className="font-medium text-sm mb-1">System-wide Tracking</p>
+            <p>
+              <span className={`inline-block w-2 h-2 rounded-full mr-2 ${isTracking ? 'bg-green-500' : 'bg-red-500'}`}></span>
+              {isTracking ? 'Tracking clicks across all applications' : 'Click tracking inactive'}
+            </p>
+            <p className="text-xs mt-1 opacity-75">Press Ctrl+Shift+C to toggle window visibility</p>
+          </div>
+        )}
       </div>
     </div>
   );
