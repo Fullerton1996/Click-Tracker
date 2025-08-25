@@ -4,11 +4,39 @@
   "description": "Click-Tracker Desktop App",
   "main": "main.js",
   "scripts": {
+    "dev": "concurrently \"vite\" \"electron .\"",
+    "build": "vite build",
     "start": "electron .",
-    "package": "electron-packager . ClickTracker --platform=darwin --arch=x64 --overwrite"
+    "make": "vite build && electron-builder --mac",
+    "package": "vite build && electron-packager . ClickTracker --platform=darwin --arch=x64 --overwrite"
   },
   "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^8.2.2",
     "electron": "^30.0.0",
-    "electron-packager": "^17.1.1"
+    "electron-builder": "^24.6.4",
+    "electron-packager": "^17.1.1",
+    "typescript": "^5.0.0",
+    "vite": "^5.4.19"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "build": {
+    "appId": "com.clicktracker.app",
+    "productName": "ClickTrackZen",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dmg"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js",
+      "preload.js"
+    ]
   }
 }

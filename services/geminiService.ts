@@ -1,29 +1,21 @@
 
-import { GoogleGenAI } from "@google/genai";
+/**
+ * Break timer messages
+ */
 
-const API_KEY = process.env.API_KEY;
-
-if (!API_KEY) {
-  // In a real app, you might handle this more gracefully.
-  // For this context, we will proceed, but API calls will fail.
-  console.warn("API_KEY environment variable not set. Gemini API calls will fail.");
-}
-
-const ai = new GoogleGenAI({ apiKey: API_KEY! });
+const BREAK_MESSAGES = [
+  "Remember to stretch and hydrate. You're doing great!",
+  "Take a deep breath and enjoy this moment of calm.",
+  "Rest your eyes and give your mind a moment to recharge.",
+  "Time to reset - you've earned this break!",
+  "Step away from the screen and refresh your focus.",
+  "Your productivity will thank you for this break.",
+  "Taking breaks improves your overall performance.",
+  "A short break now means better focus later."
+];
 
 export const getBreakQuote = async (): Promise<string> => {
-  if (!API_KEY) {
-    return "Remember to stretch and hydrate. You're doing great!";
-  }
-  
-  try {
-    const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: 'Generate a single, short, encouraging and relaxing sentence for someone on a 15 minute work break. Be positive and concise.',
-    });
-    return response.text;
-  } catch (error) {
-    console.error("Error fetching quote from Gemini:", error);
-    return "Take a deep breath and enjoy this moment of calm.";
-  }
+  // Return a random message from the array
+  const randomIndex = Math.floor(Math.random() * BREAK_MESSAGES.length);
+  return BREAK_MESSAGES[randomIndex];
 };
